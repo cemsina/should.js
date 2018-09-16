@@ -2096,14 +2096,14 @@ function expectedException(actual, expected) {
 
 function _throws(shouldThrow, block, expected, message) {
   var actual;
-
+  var returnTemp;
   if (typeof expected == "string") {
     message = expected;
     expected = null;
   }
 
   try {
-    block();
+    returnTemp = block();
   } catch (e) {
     actual = e;
   }
@@ -2129,6 +2129,7 @@ function _throws(shouldThrow, block, expected, message) {
   ) {
     throw actual;
   }
+  return returnTemp;
 }
 
 // 11. Expected to throw an error:
@@ -2156,7 +2157,7 @@ assert.throws = function(/*block, error, message*/) {
  * @param {String} [message]
  */
 assert.doesNotThrow = function(/*block, message*/) {
-  _throws.apply(this, [false].concat(pSlice.call(arguments)));
+  return _throws.apply(this, [false].concat(pSlice.call(arguments)));
 };
 
 /**
